@@ -4,7 +4,7 @@
   "description": "Functional javascript validation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/lski/fn-validation/issues"
   },
-  "homepage": "https://github.com/lski/fn-validation#readme"
+  "homepage": "https://github.com/lski/fn-validation#readme",
+  "devDependencies": {
+    "jest": "18.1.0"
+  }
 }

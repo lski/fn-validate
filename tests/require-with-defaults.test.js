@@ -1,4 +1,4 @@
-const requireValidator = require('../validators/requireWithDefaults');
+const requireValidator = require('../validators/require-with-defaults');
 
 test('require no errors with single default', () => {
 

@@ -1,4 +1,4 @@
-const minLength = require('../validators/minLength');
+const minLength = require('../validators/min-length');
 
 test('value is long enough', () => {
 

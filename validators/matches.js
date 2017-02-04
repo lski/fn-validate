@@ -1,4 +1,4 @@
-const isString = require('../utils/isString');
+const isString = require('../utils/is-string');
 
 module.exports = (regex, message = 'Value doesnt match pattern') => {
 

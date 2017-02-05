@@ -16,12 +16,17 @@ test('value is not long enough', () => {
     expect(result.length).toBeGreaterThan(0);
 });
 
-test('value is not a string', () => {
+test('value is not a string should not throw error', () => {
 
-    expect(() => {
+    var min3 = minLength(3);
 
-        var validator = minLength(3);
-        var result = validator(true);
-
-    }).toThrow();
+    expect(min3(true).length).toBe(0);
+    expect(min3(1).length).toBe(0);
+    expect(min3(false).length).toBe(0);
+    expect(min3(0).length).toBe(0);
+    expect(min3(undefined).length).toBe(0);
+    expect(min3(null).length).toBe(0);
+    expect(min3(new Date()).length).toBe(0);
+    expect(min3([]).length).toBe(0);
+    expect(min3(["a","b","c","d"]).length).toBe(0);
 });

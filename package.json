@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/lski/fn-validate#readme",
   "devDependencies": {
-    "jest": "18.1.0"
+    "jest": "18.1.0",
+    "eslint": "3.15.0"
   }
 }

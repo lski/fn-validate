@@ -1,7 +1,7 @@
 const isString = require('../utils/is-string');
 const replace = require('../utils/replace-values');
 
-module.exports = (minLength, maxLength, message = 'Should be between ' + minLength + ' and ' + maxLength) => {
+module.exports = (minLength, maxLength, message = 'Should be between ' + minLength + ' and ' + maxLength + ' in length') => {
     
     return (val) => {
 

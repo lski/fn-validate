@@ -1,2 +1,3 @@
-# fn-validation
-Functional javascript validation
+# fn-validate
+
+Extensible and chainable Javascript data validation

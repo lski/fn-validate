@@ -1,5 +1,5 @@
 {
-  "name": "fn-validation",
+  "name": "fn-validate",
   "version": "0.0.1",
   "description": "Functional javascript validation",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lski/fn-validation.git"
+    "url": "git+https://github.com/lski/fn-validate.git"
   },
   "keywords": [
     "validation",
@@ -17,9 +17,9 @@
   "author": "Lee Cooper <lee.cooper@lski.uk>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lski/fn-validation/issues"
+    "url": "https://github.com/lski/fn-validate/issues"
   },
-  "homepage": "https://github.com/lski/fn-validation#readme",
+  "homepage": "https://github.com/lski/fn-validate#readme",
   "devDependencies": {
     "jest": "18.1.0"
   }

@@ -42,10 +42,16 @@ A validator is a simple function that excepts a value as a single parameter and 
 
 ### Install
 
-Available on npm or in a script tag.
+Available on npm:
 
 ```
 npm i fn-validate --save
+```
+
+Or as a file, that can be included as a script tag:
+
+```html
+<script src="dist/fn-validate.min.js"></script>
 ```
 
 Each validator can be imported as a full package into a file or per function, to keep file size down.

@@ -1,4 +1,4 @@
-const requireValidator = require('../validators/require');
+const requireValidator = require('../required');
 
 test('require no errors with string value', () => {
 

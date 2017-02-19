@@ -1,4 +1,4 @@
-const email = require('../validators/email');
+const email = require('../email');
 
 test('is email', () => {
 

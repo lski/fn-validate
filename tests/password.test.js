@@ -1,4 +1,4 @@
-const password = require('../validators/password');
+const password = require('../password');
 
 test('password enforce all success', () => {
 

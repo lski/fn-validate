@@ -96,31 +96,6 @@ module.exports = function (value) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = {
-    isString: __webpack_require__(0),
-    regexEscape: __webpack_require__(1)
-};
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = {
-    between: __webpack_require__(4),
-    email: __webpack_require__(5),
-    lengthBetween: __webpack_require__(6),
-    matches: __webpack_require__(7),
-    maxLength: __webpack_require__(8),
-    minLength: __webpack_require__(9),
-    password: __webpack_require__(10),
-    require: __webpack_require__(12),
-    requireWithDefaults: __webpack_require__(11)
-};
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = function (min, max) {
@@ -136,7 +111,26 @@ module.exports = function (min, max) {
 };
 
 /***/ }),
-/* 5 */
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = function (validators) {
+
+    if (validators.length === 0) {
+        return validators;
+    }
+
+    return function (val) {
+
+        return validators.reduce(function (errors, validator) {
+
+            return errors.concat(validator(val));
+        }, []);
+    };
+};
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -152,7 +146,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -168,7 +162,7 @@ module.exports = function (minLength, maxLength) {
 };
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -186,7 +180,7 @@ module.exports = function (regex) {
 };
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -202,7 +196,7 @@ module.exports = function (maxLength) {
 };
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -218,7 +212,7 @@ module.exports = function (minLength) {
 };
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(1);
@@ -267,7 +261,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -290,7 +284,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -304,12 +298,30 @@ module.exports = function () {
 };
 
 /***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = {
+    isString: __webpack_require__(0),
+    regexEscape: __webpack_require__(1)
+};
+
+/***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(2),
-    validators: __webpack_require__(3)
+    utils: __webpack_require__(12),
+    combine: __webpack_require__(3),
+    between: __webpack_require__(2),
+    email: __webpack_require__(4),
+    lengthBetween: __webpack_require__(5),
+    matches: __webpack_require__(6),
+    maxLength: __webpack_require__(7),
+    minLength: __webpack_require__(8),
+    password: __webpack_require__(9),
+    require: __webpack_require__(11),
+    requireWithDefaults: __webpack_require__(10)
 };
 
 /***/ })

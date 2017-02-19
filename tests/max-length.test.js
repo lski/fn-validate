@@ -1,4 +1,4 @@
-const maxLength = require('../validators/max-length');
+const maxLength = require('../max-length');
 
 test('value is short enough', () => {
 

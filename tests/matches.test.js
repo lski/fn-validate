@@ -1,4 +1,4 @@
-const matches = require('../validators/matches');
+const matches = require('../matches');
 
 test('matches to match string regex', () => {
 

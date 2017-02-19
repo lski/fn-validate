@@ -1,4 +1,4 @@
-const between = require('../validators/length-between');
+const between = require('../length-between');
 
 test('length is valid', () => {
 

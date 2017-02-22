@@ -29,7 +29,7 @@ Or as a file, that can be included as a script tag:
 
 Each validator can be imported as a full package into a file or per function, to keep file size down.
 
-```
+```js
 const validate = require(fn-validate);
 // or
 const email = require('fn-validate/email');

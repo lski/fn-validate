@@ -1,44 +1,13 @@
 # fn-validate
 
+[![Npm Version](https://img.shields.io/npm/v/fn-validate.svg)](https://www.npmjs.com/package/fn-validate)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/lski/Lski.Fn/blob/master/LICENSE)
+
 ## Extensible and chainable Javascript data validation. 
 
 A validator is a simple function that excepts a value as a single parameter and returns whether it is invalid or not by by passing back an array of errors. If the array is empty there are no errors, otherwise they are returned as an array of error messages.
 
-### Validators
-
-- required
-
-    If a value is 'falsy' it is considered invalid
-
-- required-with-defaults
-
-    Same as required, except you explicitly list the what counts as an invalid value. Matches using ===
-
-- email
-
-    Matches against a regex to see if the value matches an email address or not
-
-- max-length
-
-    States the maximum length of a string before it becomes invalid
-
-- min-length
-
-    States the minimum length of a string before it becomes invalid
-
-- length-between
-
-    States both a minimum and maximum length of a string
-
-- matches
-
-    Excepts a regex and matches against it
-
-- password
-
-    Excepts a series of parameters such as minimum length and symbols allowed etc to state whether a password is valid or not.
-
-- More coming
+Validators supported are listed below.
 
 ### Install
 
@@ -52,6 +21,10 @@ Or as a file, that can be included as a script tag:
 
 ```html
 <script src="dist/fn-validate.min.js"></script>
+<script>
+    var validator = fnValidate.required();
+    var result = validator('a value');
+</script>
 ```
 
 Each validator can be imported as a full package into a file or per function, to keep file size down.
@@ -94,7 +67,7 @@ let result = validator(null);
 If you need to combine multiple validators use the combine method.
 
 ```js
-const { combine, requiredm maxLength } = require('fn-validate');
+const { combine, required, maxLength } = require('fn-validate');
 
 let all = combine(required(), maxLength(5));
 let result = all(null);
@@ -104,6 +77,8 @@ let result = all("foo");
 let result = all("foobar");
 // result == ['Too long']
 ```
+
+### Extending
 
 Creating your own validator is very simple, use the template below. You will then be able to chain them together.
 
@@ -115,3 +90,22 @@ module.exports = (message = '') => {
     };
 };
 ```
+
+### Validators
+
+| Validator | Description |
+| --------- | --- |
+| required |  If a value is 'falsy' it is considered invalid |
+| required-with-defaults | Same as required, except you explicitly list the what counts as an invalid value. (Matches using ===) |
+| email | Checks a string against a regex to see if the value matches an email address format or not |
+| max-length | Checks a string is long enough compared to the number stated |
+| min-length | Checks a string is not longer then the number passed in |
+| length-between | Checks a string is between a minimum and maximum length |
+| matches | Compares a string against a regex |
+| has-lowercase | Excepts a string to have a lowercase letter in it. Useful for password validation |
+| has-uppercase | Excepts a string to have a uppercase letter in it. Useful for password validation |
+| has-numeric | Excepts a string to have a number character in it. Useful for password validation |
+| allowed-chars | Expects a string to contain a certain range of characters, e.g. lowercase, uppercase or numeric and can be supplied with a list of symbols. Useful for password validation |
+| password | Excepts a series of parameters such as minimum length and symbols allowed etc to state whether a password is valid or not |
+
+*More validators coming*

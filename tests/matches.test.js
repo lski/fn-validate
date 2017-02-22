@@ -1,4 +1,5 @@
 const matches = require('../matches');
+const escape = require('../utils/regex-escape');
 
 test('matches to match string regex', () => {
 

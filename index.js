@@ -9,5 +9,9 @@ module.exports = {
     minLength: require('./min-length'),
     password: require('./password'),
     required: require('./required'),
-    requiredWithDefaults: require('./required-with-defaults')
+    requiredWithDefaults: require('./required-with-defaults'),
+    hasLowercase: require('./has-lowercase'),
+    hasUppercase: require('./has-uppercase'),
+    hasNumeric: require('./has-numeric'),
+    allowedChars: require('./allowed-chars')
 };

@@ -105,6 +105,7 @@ module.exports = (message = '') => {
 | has-lowercase | Excepts a string to have a lowercase letter in it. Useful for password validation |
 | has-uppercase | Excepts a string to have a uppercase letter in it. Useful for password validation |
 | has-numeric | Excepts a string to have a number character in it. Useful for password validation |
+| has-character | Excepts a string to contain one of the characters specified when creating the validator. Useful for password validation |
 | allowed-chars | Expects a string to contain a certain range of characters, e.g. lowercase, uppercase or numeric and can be supplied with a list of symbols. Useful for password validation |
 | password | Excepts a series of parameters such as minimum length and symbols allowed etc to state whether a password is valid or not |
 

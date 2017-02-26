@@ -11,6 +11,17 @@ test('combining reducers no error', () => {
     expect(result.length).toBe(0);
 });
 
+
+test('combining reducers params no error', () => { 
+
+    let reqA = requireValidator();
+    let reqB = requireValidator('Second validator');
+    let combined = combine(reqA, reqB);
+    let result = combined('a value');
+
+    expect(result.length).toBe(0);
+});
+
 test('combining reducers with error', () => { 
 
     let reqA = requireValidator();

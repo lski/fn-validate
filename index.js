@@ -13,5 +13,6 @@ module.exports = {
     hasLowercase: require('./has-lowercase'),
     hasUppercase: require('./has-uppercase'),
     hasNumeric: require('./has-numeric'),
+    hasChar: require('./has-char'),
     allowedChars: require('./allowed-chars')
 };

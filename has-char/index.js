@@ -2,6 +2,7 @@ const isString = require('../utils/is-string');
 
 module.exports = (characters = '', message = 'Missing required character') => {
 
+    // TODO [LC] Consider testing this against a regex version for speed
     if (isString(characters)) {
         characters = characters.split('');
     }

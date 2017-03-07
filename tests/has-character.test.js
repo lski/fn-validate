@@ -1,4 +1,4 @@
-const validator = require('../has-character');
+const validator = require('../has-char');
 
 test('contains character', () => {
 

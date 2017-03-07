@@ -102,6 +102,7 @@ module.exports = (message = '') => {
 | min-length | Checks a string is not longer then the number passed in |
 | length-between | Checks a string is between a minimum and maximum length |
 | matches | Compares a string against a regex |
+| equal-to | Compares to a value to a another value returned from a function supplied when creating the validator |
 | has-lowercase | Excepts a string to have a lowercase letter in it. Useful for password validation |
 | has-uppercase | Excepts a string to have a uppercase letter in it. Useful for password validation |
 | has-numeric | Excepts a string to have a number character in it. Useful for password validation |

@@ -14,5 +14,6 @@ module.exports = {
     hasUppercase: require('./has-uppercase'),
     hasNumeric: require('./has-numeric'),
     hasChar: require('./has-char'),
-    allowedChars: require('./allowed-chars')
+    allowedChars: require('./allowed-chars'),
+    equalTo: require('./equal-to')
 };

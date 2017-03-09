@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -217,7 +217,7 @@ module.exports = function () {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunc = __webpack_require__(23);
+var isFunc = __webpack_require__(24);
 
 /**
  * Compares to a value to a another value returned from a function
@@ -328,6 +328,26 @@ module.exports = function () {
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var isNumber = __webpack_require__(25);
+
+module.exports = function () {
+    var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Value is not a valid number';
+
+
+    return function (val) {
+
+        if (isNumber(val)) {
+            return [];
+        }
+
+        return isNaN(parseFloat(val)) ? [message] : [];
+    };
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var isString = __webpack_require__(0);
 
 module.exports = function (minLength, maxLength) {
@@ -341,7 +361,7 @@ module.exports = function (minLength, maxLength) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -355,7 +375,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -369,7 +389,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -385,7 +405,7 @@ module.exports = function (maxLength) {
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -401,7 +421,7 @@ module.exports = function (minLength) {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -415,7 +435,7 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -429,7 +449,7 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(1);
@@ -478,7 +498,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -501,7 +521,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -515,7 +535,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
@@ -524,7 +544,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = function (func) {
@@ -537,31 +557,40 @@ module.exports = function (func) {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = function (num) {
+    return typeof num === 'number';
+};
+
+/***/ }),
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(22),
+    utils: __webpack_require__(23),
     combine: __webpack_require__(5),
     between: __webpack_require__(4),
     email: __webpack_require__(6),
-    lengthBetween: __webpack_require__(12),
+    lengthBetween: __webpack_require__(13),
     matches: __webpack_require__(2),
-    maxLength: __webpack_require__(15),
-    minLength: __webpack_require__(16),
-    password: __webpack_require__(19),
-    required: __webpack_require__(21),
-    requiredWithDefaults: __webpack_require__(20),
+    maxLength: __webpack_require__(16),
+    minLength: __webpack_require__(17),
+    password: __webpack_require__(20),
+    required: __webpack_require__(22),
+    requiredWithDefaults: __webpack_require__(21),
     hasLowercase: __webpack_require__(9),
     hasUppercase: __webpack_require__(11),
     hasNumeric: __webpack_require__(10),
     hasChar: __webpack_require__(8),
     allowedChars: __webpack_require__(3),
     equalTo: __webpack_require__(7),
-    lessThan: __webpack_require__(14),
-    lessThanOrEqualTo: __webpack_require__(13),
-    moreThan: __webpack_require__(18),
-    moreThanOrEqualTo: __webpack_require__(17)
+    lessThan: __webpack_require__(15),
+    lessThanOrEqualTo: __webpack_require__(14),
+    moreThan: __webpack_require__(19),
+    moreThanOrEqualTo: __webpack_require__(18),
+    isNumeric: __webpack_require__(12)
 };
 
 /***/ })

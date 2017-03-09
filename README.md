@@ -17,7 +17,11 @@ Available on npm:
 npm i fn-validate --save
 ```
 
-Or as a file, that can be included as a script tag:
+fn-validate supports UMD so it can used in modules, in AMD and on a web page with a global variable
+
+```js
+const fnValidate = require('fn-validate');
+```
 
 ```html
 <script src="dist/fn-validate.min.js"></script>
@@ -27,12 +31,11 @@ Or as a file, that can be included as a script tag:
 </script>
 ```
 
-Each validator can be imported as a full package into a file or per function, to keep file size down.
+If bundling using a product like webpack, fn-validate supports only including the functions you actually need. This keeps bundle sizes minimal:
 
 ```js
-const validate = require(fn-validate);
-// or
 const email = require('fn-validate/email');
+const isNumeric = require('fn-validate/is-numeric');
 ```
 
 ### Usage
@@ -53,6 +56,8 @@ let result = validator('a value');
 result = validator(null);
 // result == ['This value is required']
 ```
+
+
 
 Each of the validators has a default message, but all can have the error message passed in when creating the validator. Which is important for localisation.
 
@@ -97,6 +102,7 @@ module.exports = (message = '') => {
 | --------- | --- |
 | required |  If a value is 'falsy' it is considered invalid |
 | required-with-defaults | Same as required, except you explicitly list the what counts as an invalid value. (Matches using ===) |
+| is-numeric | Ensures a value is either a number or a string that can be converted into a number via parseFloat |
 | email | Checks a string against a regex to see if the value matches an email address format or not |
 | max-length | Checks a string is long enough compared to the number stated |
 | min-length | Checks a string is not longer then the number passed in |

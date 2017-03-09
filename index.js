@@ -19,5 +19,6 @@ module.exports = {
     lessThan: require('./less-than'),
     lessThanOrEqualTo: require('./less-than-or-equal-to'),
     moreThan: require('./more-than'),
-    moreThanOrEqualTo: require('./more-than-or-equal-to')
+    moreThanOrEqualTo: require('./more-than-or-equal-to'),
+    isNumeric: require('./is-numeric')
 };

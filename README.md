@@ -108,6 +108,10 @@ module.exports = (message = '') => {
 | has-numeric | Excepts a string to have a number character in it. Useful for password validation |
 | has-char | Excepts a string to contain one of the characters specified as a string or array when creating the validator. Useful for password validation |
 | allowed-chars | Expects a string to contain a certain range of characters, e.g. lowercase, uppercase or numeric and can be supplied with a list of symbols. Useful for password validation |
+| less-than | Ensures a value is less than a supplied value |
+| less-than-or-equal-to | Ensures a value is less or equal to than a supplied value |
+| more-than | Ensures a value is more than a supplied value |
+| more-than-or-equal-to | Ensures a value is more or equal to than a supplied value |
 | password | Excepts a series of parameters such as minimum length and symbols allowed etc to state whether a password is valid or not |
 
 *More validators coming*

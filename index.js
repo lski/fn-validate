@@ -15,5 +15,9 @@ module.exports = {
     hasNumeric: require('./has-numeric'),
     hasChar: require('./has-char'),
     allowedChars: require('./allowed-chars'),
-    equalTo: require('./equal-to')
+    equalTo: require('./equal-to'),
+    lessThan: require('./less-than'),
+    lessThanOrEqualTo: require('./less-than-or-equal-to'),
+    moreThan: require('./more-than'),
+    moreThanOrEqualTo: require('./more-than-or-equal-to')
 };

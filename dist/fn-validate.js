@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -217,14 +217,19 @@ module.exports = function () {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunc = __webpack_require__(19);
+var isFunc = __webpack_require__(23);
 
-module.exports = function (otherVal) {
+/**
+ * Compares to a value to a another value returned from a function
+ * @param {(func|*)} otherValue - If a function the return value from the function is compared, otherwise just does an exact match on the value 
+ * @param {string} message - The error message to return to the user
+ */
+module.exports = function (otherValue) {
     var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Values are not equal';
 
 
-    var check = isFunc(otherVal) ? otherVal : function () {
-        return otherVal;
+    var check = isFunc(otherValue) ? otherValue : function () {
+        return otherValue;
     };
 
     return function (val) {
@@ -337,6 +342,34 @@ module.exports = function (minLength, maxLength) {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+module.exports = function (maxValue) {
+    var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Value is too large';
+
+
+    return function (val) {
+
+        return val <= maxValue ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = function (maxValue) {
+    var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Value is too large';
+
+
+    return function (val) {
+
+        return val < maxValue ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -352,7 +385,7 @@ module.exports = function (maxLength) {
 };
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -368,7 +401,35 @@ module.exports = function (minLength) {
 };
 
 /***/ }),
-/* 15 */
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = function (minValue) {
+    var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Value is too small';
+
+
+    return function (val) {
+
+        return val >= minValue ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+module.exports = function (minValue) {
+    var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Value is too small';
+
+
+    return function (val) {
+
+        return val > minValue ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(1);
@@ -417,7 +478,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -440,7 +501,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -454,7 +515,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
@@ -463,7 +524,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = function (func) {
@@ -476,27 +537,31 @@ module.exports = function (func) {
 };
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(18),
+    utils: __webpack_require__(22),
     combine: __webpack_require__(5),
     between: __webpack_require__(4),
     email: __webpack_require__(6),
     lengthBetween: __webpack_require__(12),
     matches: __webpack_require__(2),
-    maxLength: __webpack_require__(13),
-    minLength: __webpack_require__(14),
-    password: __webpack_require__(15),
-    required: __webpack_require__(17),
-    requiredWithDefaults: __webpack_require__(16),
+    maxLength: __webpack_require__(15),
+    minLength: __webpack_require__(16),
+    password: __webpack_require__(19),
+    required: __webpack_require__(21),
+    requiredWithDefaults: __webpack_require__(20),
     hasLowercase: __webpack_require__(9),
     hasUppercase: __webpack_require__(11),
     hasNumeric: __webpack_require__(10),
     hasChar: __webpack_require__(8),
     allowedChars: __webpack_require__(3),
-    equalTo: __webpack_require__(7)
+    equalTo: __webpack_require__(7),
+    lessThan: __webpack_require__(14),
+    lessThanOrEqualTo: __webpack_require__(13),
+    moreThan: __webpack_require__(18),
+    moreThanOrEqualTo: __webpack_require__(17)
 };
 
 /***/ })

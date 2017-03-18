@@ -1,13 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
+const webpackAutoInject = require('webpack-auto-inject-version');
 
 module.exports = (env) => {
 
     const prod = env && env.prod;
-    const plugins = !prod ? [] : [
-        new webpack.optimize.UglifyJsPlugin()
-    ];
     const filename = prod ? 'fn-validate.min.js' : 'fn-validate.js';
+    const plugins = [new webpackAutoInject({ autoIncrease: false, injectByTag: false })];
+
+    if (prod) {
+        plugins.push(new webpack.optimize.UglifyJsPlugin());
+    }
 
     return {
         context: path.resolve(__dirname, './'),

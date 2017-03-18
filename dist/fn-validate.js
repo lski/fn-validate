@@ -1,4 +1,4 @@
-// [AIV] Build version: 1.6.0 
+// [AIV] Build version: 1.6.1 
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,13 +90,26 @@ module.exports = function (val) {
 /* 1 */
 /***/ (function(module, exports) {
 
+module.exports = function (func) {
+
+    if (typeof func === 'function' && func.call) {
+        return true;
+    }
+
+    return false;
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
 module.exports = function (value) {
 
     return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -114,11 +127,20 @@ module.exports = function (regex) {
 };
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = function (num) {
+
+    return typeof num === 'number';
+};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var matches = __webpack_require__(2);
-var escape = __webpack_require__(1);
+var matches = __webpack_require__(3);
+var escape = __webpack_require__(2);
 
 module.exports = function () {
     var lowercase = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -152,7 +174,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = function (min, max) {
@@ -168,7 +190,7 @@ module.exports = function (min, max) {
 };
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = function (validators) {
@@ -199,7 +221,7 @@ module.exports = function (validators) {
 };
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports) {
 
 var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -215,10 +237,10 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunc = __webpack_require__(24);
+var isFunc = __webpack_require__(1);
 
 /**
  * Compares to a value to a another value returned from a function
@@ -239,7 +261,30 @@ module.exports = function (otherValue) {
 };
 
 /***/ }),
-/* 8 */
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isFunc = __webpack_require__(1);
+
+/**
+ * The most basic validator, accepts a function that accepts a value and returns truthy/falsey value when the validator is run. 
+ * 
+ * @param {func} func
+ * @param {string} message
+ */
+module.exports = function (func, message) {
+
+    if (!isFunc(func)) {
+        throw new Error('func needs to be a function');
+    }
+
+    return function (val) {
+        return func(val) ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -272,7 +317,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -290,7 +335,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -308,7 +353,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -326,10 +371,10 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isNumber = __webpack_require__(25);
+var isNumber = __webpack_require__(4);
 
 module.exports = function () {
     var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Value is not a valid number';
@@ -346,7 +391,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -362,7 +407,7 @@ module.exports = function (minLength, maxLength) {
 };
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -376,7 +421,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -390,7 +435,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -406,7 +451,7 @@ module.exports = function (maxLength) {
 };
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -422,7 +467,7 @@ module.exports = function (minLength) {
 };
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -436,7 +481,7 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -450,10 +495,34 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var escape = __webpack_require__(1);
+var isFunc = __webpack_require__(1);
+
+/**
+ * Compares to a value to a another value returned from a function
+ * @param {(func|*)} otherValue - If a function the return value from the function is compared, otherwise just does an exact match on the value 
+ * @param {string} message - The validation message to return to the user
+ */
+module.exports = function (otherValue) {
+    var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Values should not be the same';
+
+
+    var check = isFunc(otherValue) ? otherValue : function () {
+        return otherValue;
+    };
+
+    return function (val) {
+        return check() !== val ? [] : [message];
+    };
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(2);
 
 module.exports = function () {
     var minLength = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
@@ -499,7 +568,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -522,7 +591,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -536,62 +605,71 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
+    regexEscape: __webpack_require__(2),
+    replaceValues: __webpack_require__(29),
     isString: __webpack_require__(0),
-    regexEscape: __webpack_require__(1)
+    isDate: __webpack_require__(28),
+    isFunc: __webpack_require__(1),
+    isNumber: __webpack_require__(4)
 };
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports) {
 
-module.exports = function (func) {
+module.exports = function (date) {
+    return Object.prototype.toString.call(date) === '[object Date]';
+};
 
-    if (typeof func === 'function' && func.call) {
-        return true;
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+module.exports = function (text, replacements) {
+
+    var output = text;
+
+    for (var prop in replacements) {
+
+        output = output.replace("{" + prop + "}", replacements[prop]);
     }
 
-    return false;
+    return output;
 };
 
 /***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = function (num) {
-    return typeof num === 'number';
-};
-
-/***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(23),
-    combine: __webpack_require__(5),
-    between: __webpack_require__(4),
-    email: __webpack_require__(6),
-    lengthBetween: __webpack_require__(13),
-    matches: __webpack_require__(2),
-    maxLength: __webpack_require__(16),
-    minLength: __webpack_require__(17),
-    password: __webpack_require__(20),
-    required: __webpack_require__(22),
-    requiredWithDefaults: __webpack_require__(21),
-    hasLowercase: __webpack_require__(9),
-    hasUppercase: __webpack_require__(11),
-    hasNumeric: __webpack_require__(10),
-    hasChar: __webpack_require__(8),
-    allowedChars: __webpack_require__(3),
-    equalTo: __webpack_require__(7),
-    lessThan: __webpack_require__(15),
-    lessThanOrEqualTo: __webpack_require__(14),
-    moreThan: __webpack_require__(19),
-    moreThanOrEqualTo: __webpack_require__(18),
-    isNumeric: __webpack_require__(12)
+    utils: __webpack_require__(27),
+    combine: __webpack_require__(7),
+    between: __webpack_require__(6),
+    email: __webpack_require__(8),
+    lengthBetween: __webpack_require__(16),
+    matches: __webpack_require__(3),
+    maxLength: __webpack_require__(19),
+    minLength: __webpack_require__(20),
+    password: __webpack_require__(24),
+    required: __webpack_require__(26),
+    requiredWithDefaults: __webpack_require__(25),
+    hasLowercase: __webpack_require__(12),
+    hasUppercase: __webpack_require__(14),
+    hasNumeric: __webpack_require__(13),
+    hasChar: __webpack_require__(11),
+    allowedChars: __webpack_require__(5),
+    equalTo: __webpack_require__(9),
+    lessThan: __webpack_require__(18),
+    lessThanOrEqualTo: __webpack_require__(17),
+    moreThan: __webpack_require__(22),
+    moreThanOrEqualTo: __webpack_require__(21),
+    isNumeric: __webpack_require__(15),
+    generic: __webpack_require__(10),
+    notEqualTo: __webpack_require__(23)
 };
 
 /***/ })

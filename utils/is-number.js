@@ -1,3 +1,4 @@
-module.exports = function(num) {
-    return typeof(num) === 'number';
+module.exports = function (num) {
+    
+    return typeof (num) === 'number';
 };

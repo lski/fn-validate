@@ -1,6 +1,6 @@
 {
   "name": "fn-validate",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Functional javascript validation",
   "main": "index.js",
   "scripts": {

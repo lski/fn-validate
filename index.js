@@ -7,7 +7,6 @@ module.exports = {
     matches: require('./matches'),
     maxLength: require('./max-length'),
     minLength: require('./min-length'),
-    password: require('./password'),
     required: require('./required'),
     requiredWithDefaults: require('./required-with-defaults'),
     hasLowercase: require('./has-lowercase'),

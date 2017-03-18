@@ -58,14 +58,22 @@ let validator = required('A new error message');
 validator(null); // ['A new error message']
 ```
 
-### Combine
+## Combine
 
-If you need to combine multiple validators use the combine method.
+If you need to combine multiple validators use the combine method. 
+
+As some validation functions can be expensive to run and normally you only need to know the first failure, by default it will stop and return an array containing the first validation error found. However by passing true as the second parameter it is possible to run validators and get all results.
 
 ```js
 const { combine, email, maxLength } = require('fn-validate');
 
-let all = combine(email(), maxLength(10));
+let all = combine([email(), maxLength(10)]);
+all("not an email address"); // ['Email address is not valid']
+```
+
+By contrast passing true, would run all validators and combine the results.
+```js
+let all = combine([email(), maxLength(10)], true);
 all("a@b.c");  // []
 all("foo");    // ['Email address is not valid']
 all("not an email address"); // ['Email address is not valid', 'Too long']
@@ -108,6 +116,16 @@ module.exports = (message = '') => {
 | less-than-or-equal-to | Ensures a value is less or equal to than a supplied value |
 | more-than | Ensures a value is more than a supplied value |
 | more-than-or-equal-to | Ensures a value is more or equal to than a supplied value |
-| password | Excepts a series of parameters such as minimum length and symbols allowed etc to state whether a password is valid or not |
 
 *More validators coming*
+
+#### Semantic Versioning
+
+This project adheres to semantic versioning
+
+#### Migrate v1 to v2
+
+- The only real change is the behaviour to combine. 
+    - Instead of running all the validators by default now requires a an additional true parameter to run all
+    - The validators need to passed as an array rather than a dynamic list of parameters.
+- Password validator was removed as it was the only validator that had an inconistent aim of what it tried to achieve. Use a combination of the other validators with "combine" for greater flexibilty

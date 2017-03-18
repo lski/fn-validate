@@ -1,7 +1,15 @@
-module.exports = function (validators) {
+const isFunc = require('../utils/is-func');
+
+/**
+ * combines the validators by running them in sequence and returning the first error found, unless runAll is true
+ * 
+ * @param {Array} validators
+ * @param {bool} runAll - If true will run all validators regardless and return all error messages, false by default.
+ */
+module.exports = function (validators, runAll) {
 
     if (!Array.isArray(validators)) {
-        validators = Array.prototype.slice.call(arguments);
+        throw new Error('combine requires that validators are an array of functions');
     }
 
     // handle an empty array of validators not causing errors
@@ -14,12 +22,22 @@ module.exports = function (validators) {
         return validators;
     }
 
+    if (runAll === true) {
+        return (val) => validators.reduce((errors, validator) => errors.concat(validator(val)), []);
+    }
+
     return (val) => {
 
-        return validators.reduce((errors, validator) => {
+        for (let i = 0, n = validators.length; i < n; i++) {
 
-            return errors.concat(validator(val));
+            let validator = validators[i];
+            let result = validator(val);
 
-        }, []);
-    };
+            if (result.length > 0) {
+                return result;
+            }
+        }
+
+        return [];
+    }
 };

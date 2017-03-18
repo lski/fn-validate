@@ -1,4 +1,4 @@
-// [AIV] Build version: 1.6.1 
+// [AIV] Build version: 2.0.0 
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 29);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,15 +101,6 @@ module.exports = function (func) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-module.exports = function (value) {
-
-    return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-};
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -127,7 +118,7 @@ module.exports = function (regex) {
 };
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = function (num) {
@@ -136,11 +127,20 @@ module.exports = function (num) {
 };
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = function (value) {
+
+    return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var matches = __webpack_require__(3);
-var escape = __webpack_require__(2);
+var matches = __webpack_require__(2);
+var escape = __webpack_require__(4);
 
 module.exports = function () {
     var lowercase = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -191,12 +191,20 @@ module.exports = function (min, max) {
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function (validators) {
+var isFunc = __webpack_require__(1);
+
+/**
+ * combines the validators by running them in sequence and returning the first error found, unless runAll is true
+ * 
+ * @param {Array} validators
+ * @param {bool} runAll - If true will run all validators regardless and return all error messages, false by default.
+ */
+module.exports = function (validators, runAll) {
 
     if (!Array.isArray(validators)) {
-        validators = Array.prototype.slice.call(arguments);
+        throw new Error('combine requires that validators are an array of functions');
     }
 
     // handle an empty array of validators not causing errors
@@ -211,12 +219,27 @@ module.exports = function (validators) {
         return validators;
     }
 
+    if (runAll === true) {
+        return function (val) {
+            return validators.reduce(function (errors, validator) {
+                return errors.concat(validator(val));
+            }, []);
+        };
+    }
+
     return function (val) {
 
-        return validators.reduce(function (errors, validator) {
+        for (var i = 0, n = validators.length; i < n; i++) {
 
-            return errors.concat(validator(val));
-        }, []);
+            var validator = validators[i];
+            var result = validator(val);
+
+            if (result.length > 0) {
+                return result;
+            }
+        }
+
+        return [];
     };
 };
 
@@ -374,7 +397,7 @@ module.exports = function () {
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isNumber = __webpack_require__(4);
+var isNumber = __webpack_require__(3);
 
 module.exports = function () {
     var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Value is not a valid number';
@@ -520,55 +543,6 @@ module.exports = function (otherValue) {
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__(2);
-
-module.exports = function () {
-    var minLength = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
-    var maxLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 128;
-    var allowedSymbols = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-    var requireNumber = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-    var requireLowercase = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
-    var requireUppercase = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
-    var requireSymbol = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
-    var message = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : "Password is not valid";
-
-
-    var regexBuilder = "^";
-
-    if (requireNumber) {
-        regexBuilder += "(?=.*\\d)";
-    }
-
-    if (requireLowercase) {
-        regexBuilder += "(?=.*[a-z])";
-    }
-
-    if (requireUppercase) {
-        regexBuilder += "(?=.*[A-Z])";
-    }
-
-    regexBuilder += "[a-zA-Z0-9";
-
-    if (allowedSymbols) {
-        regexBuilder += escape(allowedSymbols);
-    }
-
-    regexBuilder += "]";
-
-    regexBuilder += "{" + minLength + "," + maxLength + "}$";
-
-    var regex = new RegExp(regexBuilder);
-
-    return function (val) {
-
-        return regex.test(val) ? [] : [message];
-    };
-};
-
-/***/ }),
-/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -591,7 +565,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -605,20 +579,20 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    regexEscape: __webpack_require__(2),
-    replaceValues: __webpack_require__(29),
+    regexEscape: __webpack_require__(4),
+    replaceValues: __webpack_require__(28),
     isString: __webpack_require__(0),
-    isDate: __webpack_require__(28),
+    isDate: __webpack_require__(27),
     isFunc: __webpack_require__(1),
-    isNumber: __webpack_require__(4)
+    isNumber: __webpack_require__(3)
 };
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = function (date) {
@@ -626,7 +600,7 @@ module.exports = function (date) {
 };
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = function (text, replacements) {
@@ -642,21 +616,20 @@ module.exports = function (text, replacements) {
 };
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(27),
+    utils: __webpack_require__(26),
     combine: __webpack_require__(7),
     between: __webpack_require__(6),
     email: __webpack_require__(8),
     lengthBetween: __webpack_require__(16),
-    matches: __webpack_require__(3),
+    matches: __webpack_require__(2),
     maxLength: __webpack_require__(19),
     minLength: __webpack_require__(20),
-    password: __webpack_require__(24),
-    required: __webpack_require__(26),
-    requiredWithDefaults: __webpack_require__(25),
+    required: __webpack_require__(25),
+    requiredWithDefaults: __webpack_require__(24),
     hasLowercase: __webpack_require__(12),
     hasUppercase: __webpack_require__(14),
     hasNumeric: __webpack_require__(13),

@@ -88,6 +88,7 @@ module.exports = (message = '') => {
 
 | Validator | Description |
 | --------- | --- |
+| generic | Accepts a func that runs on each validation and returns the result of being valid or not |
 | required |  If a value is 'falsy' it is considered invalid |
 | required-with-defaults | Same as required, except you explicitly list the what counts as an invalid value. (Matches using ===) |
 | is-numeric | Ensures a value is either a number or a string that can be converted into a number via parseFloat |
@@ -97,6 +98,7 @@ module.exports = (message = '') => {
 | length-between | Checks a string is between a minimum and maximum length |
 | matches | Compares a string against a regex |
 | equal-to | Compares to a value to a another value returned from a function supplied when creating the validator |
+| not-equal-to | Opposite of equal-to |
 | has-lowercase | Excepts a string to have a lowercase letter in it. Useful for password validation |
 | has-uppercase | Excepts a string to have a uppercase letter in it. Useful for password validation |
 | has-numeric | Excepts a string to have a number character in it. Useful for password validation |

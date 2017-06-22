@@ -3,80 +3,64 @@
 [![Npm Version](https://img.shields.io/npm/v/fn-validate.svg)](https://www.npmjs.com/package/fn-validate)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/lski/Lski.Fn/blob/master/LICENSE)
 
-## Extensible and chainable Javascript data validation. 
+## Extensible, Chainable Functional Javascript Data Validation. 
 
-A validator is a simple function that excepts a value to validate as a parameter and states returns whether it is valid or not. It produces an array of any validation errors, an empty array means there were no errors.
+Wouldn't it be great if you could create a function dynamically, that accepts a value and just returns an array listing any errors it finds?
 
-A validator is created calling a function and supplying it any criteria it needs to perform the validation. That validator can then be used over and over again. E.g. Below shows a validator being created that ensures a string is at least 10 characters long:
+Start by creating a validator with a validator creator:
+```js
+const longerThanTen = minLenth(10);
+```
+
+Then use that validator later in code to test values:
+```js
+longerThanTen('the message to validate'); // -> [] -> no errors
+
+longerThanTen('oops'); // -> ['Not long enough'] -> error found with error message
+```
+
+This library contains a selection of "[validator creators](#validation%20creators)" like `minLength` which are higher order functions that accept criteria to test against, such as the minimum length of a string, and returns a function known as a validator that can be used to test values against that criteria.
+
+Unlike validator creators, which can have many parameters, validators only ever accept one parameter, which is the value to test. As the criteria to validate against is added by the validator creator, the validator already knows what it needs to validate that value against, so can be used over and over, without the need to pass around the criteria.
+
+A validator then returns an array of errors found with that value. In the example above that is whether the size of a string is at least 10 characters long. If no errors then the array is empty.
+
+All validators and validator creators are 'pure' functions.
+
+## Combine Validators
+
+As all validators accept only one parameter and always return arrays, validators can be combined together to create complex validation on a value that returns an array of any potential errors in the same way as a single validator.
 
 ```js
-let validator = minLenth(10);
+import { combine, email, maxLength } from 'fn-validate';
 
-validator('the message to validate'); // []
-validator('oops'); // ['Not long enough']
+let all = combine([email(), maxLength(20)]);
+
+all("not an email address and it is too long"); // ['Email address is not valid']
 ```
 
-The advantage about using arrays as responses is validators can be chained together, [see combine](#combine). Validators included in this project supported are listed [below](#vaildators).
+By default each validator combined using `combine` are run in sequence and return on first fail. This is because some validation, such as the strength of a password, could be expensive to run each time and often only the first validation failure is needed.
 
-## Install
-
-Available on npm:
-
-```
-npm i fn-validate --save
-```
-
-## Usage
-
-fn-validate supports UMD so it can used in modules, in AMD and on a web page with a global variable
+To run all validators, regardless of whether there is a failure or not, pass `true` as the second parameter.
 
 ```js
-const fnValidate = require('fn-validate');
+let validator = combine([email(), maxLength(20)], true);
+
+validator("a@b.c");  // []
+validator("foo");    // ['Email address is not valid']
+validator("not an email address and it is too long"); // ['Email address is not valid', 'Too long']
 ```
 
-```html
-<script src="dist/fn-validate.min.js"></script>
-<script>
-    var validator = fnValidate.required();
-    validator('a value');
-</script>
-```
+## Error Messages
 
-If bundling using a product like webpack, fn-validate supports including just the functions you actually need, to keep bundle sizes minimal:
+Each of the validators has a default message, but its possible to change the error message of all supplied validator creators when creating the validator. Which is important for localisation.
 
 ```js
-const isEmail = require('fn-validate/email');
-const isNumeric = require('fn-validate/is-numeric');
-```
+import required from 'fn-validate/required';
 
-Each of the validators has a default message, but all can have the error message passed in when creating the validator. Which is important for localisation.
+let isRequired = required('A new error message');
 
-```js
-const required = require('fn-validate/require');
-
-let validator = required('A new error message');
-validator(null); // ['A new error message']
-```
-
-## Combine
-
-If you need to combine multiple validators use the combine method. 
-
-As some validation functions can be expensive to run and normally you only need to know the first failure, by default it will stop and return an array containing the first validation error found. However by passing true as the second parameter it is possible to run validators and get all results.
-
-```js
-const { combine, email, maxLength } = require('fn-validate');
-
-let all = combine([email(), maxLength(10)]);
-all("not an email address"); // ['Email address is not valid']
-```
-
-By contrast passing true, would run all validators and combine the results.
-```js
-let all = combine([email(), maxLength(10)], true);
-all("a@b.c");  // []
-all("foo");    // ['Email address is not valid']
-all("not an email address"); // ['Email address is not valid', 'Too long']
+isRequired(null); // ['A new error message']
 ```
 
 ## Extending
@@ -92,7 +76,30 @@ module.exports = (message = '') => {
 };
 ```
 
-## Validators
+## Usage
+
+Available on npm:
+
+```
+npm i fn-validate --save
+```
+
+fn-validate supports a UMD build, meaning it can be used with Common JS modules, AMD and also directly in the browser. 
+
+Its also possible to just import the validator creators that are needed.
+
+```js
+import * as fnValidate from 'fn-validate';
+import { email, isNumeric } from 'fn-validate';
+import email from 'fn-validate/email';
+
+// via commonjs
+const fnValidate = require('fn-validate');
+const email = require('fn-validate/email');
+const isNumeric = require('fn-validate/is-numeric');
+```
+
+## Validation Creators
 
 | Validator | Description |
 | --------- | --- |

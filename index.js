@@ -23,5 +23,7 @@ module.exports = {
     generic: require('./generic'),
     notEqualTo: require('./not-equal-to'),
     genericAsync: require('./generic-async'),
-    combineAsync: require('./combine-async')
+    combineAsync: require('./combine-async'),
+    custom: require('./custom'),
+    customAsync: require('./combine-async')
 };

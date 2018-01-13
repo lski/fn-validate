@@ -1,6 +1,6 @@
-const validator = require('../generic');
+const validator = require('../custom');
 
-test('generic func', () => {
+test('custom func', () => {
 
     var test = validator((val) => val == "hello", "a message");
 

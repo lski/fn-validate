@@ -1,18 +1,9 @@
-const isFunc = require('../utils/is-func');
+const custom = require('../custom');
+const log = require('../utils/log');
 
-/**
- * The most basic validator, accepts a function that accepts a value and returns truthy/falsey value when the validator is run. 
- * 
- * @param {func} func
- * @param {string} message
- */
 module.exports = (func, message) => {
 
-    if (!isFunc(func)) {
-        throw new Error('func needs to be a function');
-    }
+    log('Warning: generic has been renamed to custom. generic has been depreciated and will be removed in the next major version.');
 
-    return (val) => {
-        return func(val) ? [] : [message];
-    };
+    return custom(func, message);
 };

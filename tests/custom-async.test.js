@@ -1,4 +1,4 @@
-const genericAsync = require('../generic-async');
+const genericAsync = require('../custom-async');
 
 test('is true - async', (done) => {
 

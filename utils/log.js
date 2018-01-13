@@ -1,0 +1,1 @@
+module.exports = (console && console.log && console.log.bind(console)) || (() => null);

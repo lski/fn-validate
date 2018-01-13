@@ -21,5 +21,7 @@ module.exports = {
     moreThanOrEqualTo: require('./more-than-or-equal-to'),
     isNumeric: require('./is-numeric'),
     generic: require('./generic'),
-    notEqualTo: require('./not-equal-to')
+    notEqualTo: require('./not-equal-to'),
+    genericAsync: require('./generic-async'),
+    combineAsync: require('./combine-async')
 };

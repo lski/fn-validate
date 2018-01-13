@@ -1,4 +1,4 @@
-// [AIV] Build version: 2.0.0 
+// [AIV] Build version: 2.3.0 
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -12,41 +12,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -66,15 +66,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -130,17 +130,25 @@ module.exports = function (num) {
 /* 4 */
 /***/ (function(module, exports) {
 
+module.exports = function (val) {
+    return val instanceof Promise;
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
 module.exports = function (value) {
 
     return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var matches = __webpack_require__(2);
-var escape = __webpack_require__(4);
+var escape = __webpack_require__(5);
 
 module.exports = function () {
     var lowercase = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -174,7 +182,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = function (min, max) {
@@ -190,7 +198,169 @@ module.exports = function (min, max) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isFunc = __webpack_require__(1);
+var isPromise = __webpack_require__(4);
+
+/**
+ * combines the validators by running them in sequence and returning the first error found, unless runAll is true
+ * 
+ * @param {Array} validators
+ * @param {bool} runAll - If true will run all validators regardless and return all error messages, false by default.
+ */
+module.exports = function (validators) {
+    var runAll = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+
+    if (!Array.isArray(validators)) {
+        throw new Error('combineAsync requires that validators are an array of functions');
+    }
+
+    // handle an empty array of validators not causing errors
+    if (validators.length === 0) {
+        return function () {
+            return Promise.resolve([]);
+        };
+    }
+
+    // No point in wrapping this function if only one
+    if (validators.length === 1) {
+        var validator = validators[0];
+
+        return function (val) {
+            var result = validator(val);
+            return isPromise(result) ? result : Promise.resolve(result);
+        };
+    }
+
+    if (runAll) {
+        return function (val) {
+            return runAllValidators(validators, val);
+        };
+    }
+
+    return function (val) {
+        return firstErrorValidator(validators, val);
+    };
+};
+
+function runAllValidators(validators, val) {
+
+    var promises = validators.map(function (validator) {
+
+        var result = validator(val);
+
+        return isPromise(result) ? result : Promise.resolve(result);
+    });
+
+    return Promise.all(promises).then(function (results) {
+        return results.reduce(function (output, result) {
+            return output.concat(result);
+        }, []);
+    });
+}
+
+function firstErrorValidator(validators, val) {
+
+    return new Promise(function (resolve, reject) {
+
+        var errorFound = false; // Use this in case a promise resolves after an error has already been resolved
+        var resultsRemaing = validators.length;
+
+        for (var i = 0, n = validators.length; i < n; i++) {
+
+            if (errorFound) {
+                return;
+            }
+
+            try {
+                var result = validators[i](val);
+                var isPromiseResult = isPromise(result);
+
+                if (!isPromiseResult && result.length > 0) {
+
+                    errorFound = true;
+                    resolve(result);
+                    break;
+                } else if (!isPromiseResult) {
+
+                    if (--resultsRemaing === 0) {
+                        resolve([]);
+                    }
+                } else {
+
+                    result.then(function (result) {
+
+                        if (result.length > 0) {
+                            errorFound = true;
+                            resolve(result);
+                        } else if (--resultsRemaing === 0) {
+                            resolve([]);
+                        }
+                    }).catch(reject);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        }
+    });
+}
+
+// function firstErrorValidatorClassic(validators, val) {
+
+//     // TODO: Investigate whether its better to simply return on first none async fail, rather than attempt to resolve in order
+//     return new Promise((resolve, reject) => {
+
+//         let i = 0;
+//         let n = validators.length;
+//         let promises = [];
+
+//         while (i < n) {
+
+//             try {
+//                 const result = validators[i](val);
+//                 const isPromiseResult = isPromise(result);
+
+//                 // If the first result is synchronous and no asynchronous results have been found yet, then break out here
+//                 if (!isPromiseResult && promises.length === 0 && result.length > 0) {
+//                     resolve(result);
+//                     break;
+//                 }
+
+//                 promises.push(isPromiseResult ? result : Promise.resolve(result));
+
+//             } catch (err) {
+//                 reject(err);
+//             }
+
+//             i++;
+//         }
+
+//         // Run through the remaining promise results and return the first one resolved
+//         let promisesCompleted = 0;
+//         const total = promises.length;
+
+//         promises.forEach(promise => {
+//             promise.then(result => {
+
+//                 if(result && result.length) {
+//                     return resolve(result);
+//                 }
+
+//                 if(++promisesCompleted === total) {
+//                     console.log('resolved', promisesCompleted, total);
+//                     return resolve([]);
+//                 }
+
+//             }).catch(reject);
+//         });
+//     });
+// }
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunc = __webpack_require__(1);
@@ -244,7 +414,7 @@ module.exports = function (validators, runAll) {
 };
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -260,7 +430,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunc = __webpack_require__(1);
@@ -284,7 +454,38 @@ module.exports = function (otherValue) {
 };
 
 /***/ }),
-/* 10 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isPromise = __webpack_require__(4);
+var isFunc = __webpack_require__(1);
+
+/**
+ * The most basic validator, accepts a function that accepts a value and returns truthy/falsey value when the validator is run. 
+ * 
+ * @param {func} func
+ * @param {string} message
+ */
+function genericAsync(func, message) {
+
+    if (!isFunc(func)) {
+        throw new Error('func needs to be a function');
+    }
+
+    return function (val) {
+
+        var result = func(val);
+
+        return isPromise(result) ? result.then(function (result) {
+            return result ? [] : [message];
+        }) : Promise.resolve(result ? [] : [message]); // TODO: Provide console warning that the user should be using generic for performance
+    };
+};
+
+module.exports = genericAsync;
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunc = __webpack_require__(1);
@@ -307,7 +508,7 @@ module.exports = function (func, message) {
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -340,7 +541,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -358,7 +559,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -376,7 +577,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -394,7 +595,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isNumber = __webpack_require__(3);
@@ -414,7 +615,7 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -430,7 +631,7 @@ module.exports = function (minLength, maxLength) {
 };
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -444,7 +645,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function (maxValue) {
@@ -458,7 +659,7 @@ module.exports = function (maxValue) {
 };
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -474,7 +675,7 @@ module.exports = function (maxLength) {
 };
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isString = __webpack_require__(0);
@@ -490,7 +691,7 @@ module.exports = function (minLength) {
 };
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -504,7 +705,7 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function (minValue) {
@@ -518,7 +719,7 @@ module.exports = function (minValue) {
 };
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunc = __webpack_require__(1);
@@ -542,7 +743,7 @@ module.exports = function (otherValue) {
 };
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = function (defaultValues) {
@@ -565,7 +766,7 @@ module.exports = function (defaultValues) {
 };
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = function () {
@@ -579,20 +780,20 @@ module.exports = function () {
 };
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    regexEscape: __webpack_require__(4),
-    replaceValues: __webpack_require__(28),
+    regexEscape: __webpack_require__(5),
+    replaceValues: __webpack_require__(31),
     isString: __webpack_require__(0),
-    isDate: __webpack_require__(27),
+    isDate: __webpack_require__(30),
     isFunc: __webpack_require__(1),
     isNumber: __webpack_require__(3)
 };
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = function (date) {
@@ -600,7 +801,7 @@ module.exports = function (date) {
 };
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function (text, replacements) {
@@ -616,33 +817,35 @@ module.exports = function (text, replacements) {
 };
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
-    utils: __webpack_require__(26),
-    combine: __webpack_require__(7),
-    between: __webpack_require__(6),
-    email: __webpack_require__(8),
-    lengthBetween: __webpack_require__(16),
+    utils: __webpack_require__(29),
+    combine: __webpack_require__(9),
+    between: __webpack_require__(7),
+    email: __webpack_require__(10),
+    lengthBetween: __webpack_require__(19),
     matches: __webpack_require__(2),
-    maxLength: __webpack_require__(19),
-    minLength: __webpack_require__(20),
-    required: __webpack_require__(25),
-    requiredWithDefaults: __webpack_require__(24),
-    hasLowercase: __webpack_require__(12),
-    hasUppercase: __webpack_require__(14),
-    hasNumeric: __webpack_require__(13),
-    hasChar: __webpack_require__(11),
-    allowedChars: __webpack_require__(5),
-    equalTo: __webpack_require__(9),
-    lessThan: __webpack_require__(18),
-    lessThanOrEqualTo: __webpack_require__(17),
-    moreThan: __webpack_require__(22),
-    moreThanOrEqualTo: __webpack_require__(21),
-    isNumeric: __webpack_require__(15),
-    generic: __webpack_require__(10),
-    notEqualTo: __webpack_require__(23)
+    maxLength: __webpack_require__(22),
+    minLength: __webpack_require__(23),
+    required: __webpack_require__(28),
+    requiredWithDefaults: __webpack_require__(27),
+    hasLowercase: __webpack_require__(15),
+    hasUppercase: __webpack_require__(17),
+    hasNumeric: __webpack_require__(16),
+    hasChar: __webpack_require__(14),
+    allowedChars: __webpack_require__(6),
+    equalTo: __webpack_require__(11),
+    lessThan: __webpack_require__(21),
+    lessThanOrEqualTo: __webpack_require__(20),
+    moreThan: __webpack_require__(25),
+    moreThanOrEqualTo: __webpack_require__(24),
+    isNumeric: __webpack_require__(18),
+    generic: __webpack_require__(13),
+    notEqualTo: __webpack_require__(26),
+    genericAsync: __webpack_require__(12),
+    combineAsync: __webpack_require__(8)
 };
 
 /***/ })

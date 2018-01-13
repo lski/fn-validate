@@ -1,13 +1,14 @@
 {
   "name": "fn-validate",
-  "version": "2.0.0",
+  "version": "2.3.0",
   "description": "Functional javascript validation",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "./node_modules/.bin/jest",
     "build:dev": ".\\node_modules\\.bin\\webpack",
     "build:prod": ".\\node_modules\\.bin\\webpack --env.prod",
-    "build": "npm run build:dev & npm run build:prod"
+    "build": "npm run build:dev & npm run build:prod",
+    "publish:all": "npm run build & npm publish"
   },
   "repository": {
     "type": "git",

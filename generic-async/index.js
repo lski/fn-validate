@@ -1,4 +1,4 @@
-const customAsync = require('../customAsync');
+const customAsync = require('../custom-async');
 const log = require('../utils/log');
 
 function genericAsync(func, message) {

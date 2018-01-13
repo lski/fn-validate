@@ -7,7 +7,7 @@ const isFunc = require('../utils/is-func');
  * @param {func} func
  * @param {string} message
  */
-function customAsync(func, message) {
+function customAsync(func, message = 'Value is incorrect') {
 
     if (!isFunc(func)) {
         throw new Error('func needs to be a function');

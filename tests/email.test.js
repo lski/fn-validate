@@ -1,4 +1,4 @@
-const email = require('../email');
+import { email } from '../src';
 
 test('is email', () => {
 

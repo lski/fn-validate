@@ -1,4 +1,4 @@
-const minLength = require('../min-length');
+import { minLength } from '../src';
 
 test('value is long enough', () => {
 

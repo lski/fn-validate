@@ -1,17 +1,17 @@
-const validator = require('../has-lowercase');
+import { hasLowercase } from '../src';
 
-test('has a lowercase letter', () => { 
+test('has a lowercase letter', () => {
 
-    let lower = validator();
+    let lower = hasLowercase();
 
     let result = lower('thishasalowercaseSD33fd&');
 
     expect(result.length).toBe(0);
 });
 
-test('has no lowercase letter', () => { 
+test('has no lowercase letter', () => {
 
-    let lower = validator();
+    let lower = hasLowercase();
 
     let result = lower('GSJDKK()&^%$&');
 

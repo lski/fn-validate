@@ -1,4 +1,4 @@
-const between = require('../length-between');
+import { lengthBetween as between } from '../src';
 
 test('length is valid', () => {
 

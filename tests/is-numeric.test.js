@@ -1,4 +1,4 @@
-const isNumeric = require('../is-numeric');
+import { isNumeric } from '../src';
 
 test('Is a number', () => {
 

@@ -1,61 +1,49 @@
-const genericAsync = require('../custom-async');
+import { customAsync } from '../src';
 
-test('is true - async', (done) => {
+test('is true - async', () => {
+	let validator = customAsync((val) => Promise.resolve(val));
+	let result = validator(true);
 
-    let validator = genericAsync((val) => Promise.resolve(val));
-    let result = validator(true);
+	expect(result).toBeInstanceOf(Promise);
 
-    expect(result).toBeInstanceOf(Promise);
-
-    result.then(result => {
-
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBe(0);
-        done();
-    });
+	return result.then((result) => {
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBe(0);
+	});
 });
 
-test('is false - async', (done) => {
+test('is false - async', () => {
+	let validator = customAsync((val) => Promise.resolve(val));
+	let result = validator(false);
 
-    let validator = genericAsync((val) => Promise.resolve(val));
-    let result = validator(false);
+	expect(result).toBeInstanceOf(Promise);
 
-    expect(result).toBeInstanceOf(Promise);
-
-    result.then(result => {
-
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
-        done();
-    });
+	return result.then((result) => {
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBeGreaterThan(0);
+	});
 });
 
-test('is true', (done) => {
+test('is true', () => {
+	let validator = customAsync((val) => val);
+	let result = validator(true);
 
-    let validator = genericAsync(val => val);
-    let result = validator(true);
+	expect(result).toBeInstanceOf(Promise);
 
-    expect(result).toBeInstanceOf(Promise);
-
-    result.then(result => {
-
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBe(0);
-        done();
-    });
+	return result.then((result) => {
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBe(0);
+	});
 });
 
-test('is false', (done) => {
+test('is false', () => {
+	let validator = customAsync((val) => val);
+	let result = validator(false);
 
-    let validator = genericAsync(val => val);
-    let result = validator(false);
+	expect(result).toBeInstanceOf(Promise);
 
-    expect(result).toBeInstanceOf(Promise);
-
-    result.then(result => {
-
-        expect(result).toBeInstanceOf(Array);
-        expect(result.length).toBeGreaterThan(0);
-        done();
-    });
+	return result.then((result) => {
+		expect(result).toBeInstanceOf(Array);
+		expect(result.length).toBeGreaterThan(0);
+	});
 });

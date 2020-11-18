@@ -7,7 +7,7 @@
 npm i fn-validate --save
 ```
 
-## Extensible, Chainable Functional Javascript Data Validation. 
+## Extensible, Chainable Functional Javascript Data Validation.
 
 Wouldnt it be great if you could pass a single value into a function and have it tell you if there are any errors with it? Wouldnt it be even better if you could combine several of those functions together into a single function that can be used in the same simple way? __Now supports asynchronous [validators](#Async%20-%20Custom%20and%20Combine)!__
 
@@ -61,7 +61,7 @@ moreThan10(5); // == ['Woooo that value is way too small']
 
 ## Async - Custom and Combine
 
-Sometimes we need to validate against an external resource, perhaps a service to say if a username is taken. 
+Sometimes we need to validate against an external resource, perhaps a service to say if a username is taken.
 
 There are a couple of functions for handling async validation. The only difference being instead of returning an array, they return a Promise, that in turn resolves to an array.
 
@@ -79,7 +79,7 @@ To go along with `customAsync` there is also an async version of combine `combin
 ```js
 import { required, combineAsync, customAsync } from 'fn-validate';
 
-const validator = combineAsync([ 
+const validator = combineAsync([
     required(),
     customAsync(val => Promise.resolve(val === 'Hello world'))
 ]);
@@ -94,7 +94,7 @@ validator('Hello universe').then(result => /* result == ['Value is incorrect'] *
 
 ## Validation Creators
 
-Synchronous Validation Creators.
+### Synchronous Validation Creators.
 
 | Validator | Description |
 | --------- | --- |
@@ -119,7 +119,7 @@ Synchronous Validation Creators.
 | more-than-or-equal-to | Ensures a value is more or equal to than a supplied value |
 | custom | Accepts a func that runs on each validation, which returns a boolean to state if the value is valid or not |
 
-Asynchronous Validation Creators
+### Asynchronous Validation Creators
 
 | Validator | Description |
 | --------- | --- |
@@ -129,13 +129,13 @@ __NB__ Reminder async returns a Promise that resolves to an array, rather than a
 
 ## Extending
 
-A validator is just a function that accepts a single parameter and returns an array with error messages in. All the validator creators above do is accept some information and then returns a validator function. 
+A validator is just a function that accepts a single parameter and returns an array with error messages in. All the validator creators above do is accept some information and then returns a validator function.
 
 So you can either just create a function to return an array, or if you want to reuse logic in several places just create a validator creator using the format below:
 
 ```js
 module.exports = (message = '') => {
-    
+
     return (val) => {
         // logic goes here
     };
@@ -143,7 +143,7 @@ module.exports = (message = '') => {
 ```
 ## Usage
 
-fn-validate supports a UMD build, meaning it can be used with Common JS modules, AMD and also directly in the browser. 
+fn-validate supports a UMD build, meaning it can be used with Common JS modules, AMD and also directly in the browser.
 
 Its also possible to just import the validator creators that are needed.
 
@@ -164,7 +164,14 @@ This project adheres to semantic versioning to give confidence in any changes th
 
 #### Migrate v1 to v2
 
-- The only real change is the behaviour to combine. 
+- The only real change is the behaviour to combine.
     - Instead of running all the validators by default now requires a an additional true parameter to run all
     - The validators need to passed as an array rather than a dynamic list of parameters.
 - Password validator was removed as it was the only validator that had an inconistent aim of what it tried to achieve. Use a combination of the other validators with "combine" for greater flexibilty
+
+#### Migrate v2 to v3
+
+- functions generic and generic-async have been removed
+- renamed more-than-or-equal-to changed to greater-than-or-equal-to
+- renamed more-than to greater-than
+- renamed require-with-default to not-default

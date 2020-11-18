@@ -1,11 +1,11 @@
-const escape = require('../utils/regex-escape');
-const isString = require('../utils/is-string');
-const replace = require('../utils/replace-values');
-const isPromise = require('../utils/is-promise');
+import { regexEscape } from '../src/utils/regex-escape';
+import { isString } from '../src/utils/is-string';
+import { replaceValues } from '../src/utils/replace-values';
+import { isPromise } from '../src/utils/is-promise';
 
 test('escaping regex', () => {
 
-    let regex = new RegExp("[" + escape("[") + "]");
+    let regex = new RegExp("[" + regexEscape("[") + "]");
     let result = regex.test("[");
 
     expect(result).toBe(true);
@@ -27,7 +27,7 @@ test('replace-values', () => {
 
     let mess = 'a "{valueA}" to replace and another "{valueB}" to replace';
     let replacements = { valueA: "A", valueB: "B" };
-    let output = replace(mess, replacements);
+    let output = replaceValues(mess, replacements);
 
     expect(output).toBe('a "A" to replace and another "B" to replace');
 });
@@ -41,5 +41,5 @@ test('is-promise', () => {
     expect(isPromise(1.9)).toBe(false);
     expect(isPromise(true)).toBe(false);
     expect(isPromise(Promise.resolve(1))).toBe(true);
-    expect(isPromise(new Promise((res, rej) => null))).toBe(true);
+    expect(isPromise(new Promise(() => null))).toBe(true);
 });

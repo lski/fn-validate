@@ -1,0 +1,13 @@
+{
+	"env": {
+		"jest/globals": true,
+		"es6": true
+	},
+	"ignorePatterns": ["/dist/**"],
+	"parserOptions": {
+		"ecmaVersion": 9,
+		"sourceType": "module"
+	},
+	"extends": ["eslint:recommended", "plugin:jest/recommended"],
+	"plugins": ["tree-shaking", "jest"]
+}

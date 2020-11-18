@@ -1,8 +1,8 @@
-const validator = require('../equal-to');
+import { equalTo } from '../src';
 
 test('via func', () => {
 
-    var req = validator(() => 10);
+    var req = equalTo(() => 10);
 
     expect(req(10).length).toBe(0);
     expect(req(1).length).toBe(1);
@@ -10,7 +10,7 @@ test('via func', () => {
 
 test('via value', () => {
 
-    var req = validator(10);
+    var req = equalTo(10);
 
     expect(req(10).length).toBe(0);
     expect(req(1).length).toBe(1);

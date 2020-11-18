@@ -1,4 +1,4 @@
-const maxLength = require('../max-length');
+import { maxLength } from '../src';
 
 test('value is short enough', () => {
 

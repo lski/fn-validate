@@ -1,19 +1,17 @@
-const validator = require('../has-numeric');
+import { hasNumeric } from '../src';
 
-test('has a number', () => { 
+test('has a number', () => {
+	let numeric = hasNumeric();
 
-    let numeric = validator();
+	let result = numeric('thishasalowercaseSD33fd&');
 
-    let result = numeric('thishasalowercaseSD33fd&');
-
-    expect(result.length).toBe(0);
+	expect(result.length).toBe(0);
 });
 
-test('has no number', () => { 
+test('has no number', () => {
+	let numeric = hasNumeric();
 
-    let numeric = validator();
+	let result = numeric('SJJKJkdsdfkj*&(*^*)');
 
-    let result = numeric('SJJKJkdsdfkj*&(*^*)');
-
-    expect(result.length).toBe(1);
+	expect(result.length).toBe(1);
 });

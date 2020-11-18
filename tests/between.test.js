@@ -1,4 +1,4 @@
-const between = require('../between');
+import { between } from '../src/between';
 
 test('Number is valid', () => {
 

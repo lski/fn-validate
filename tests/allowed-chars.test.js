@@ -1,4 +1,4 @@
-const validator = require('../allowed-chars');
+import { allowedChars as validator } from '../src/allowed-chars';
 
 test('only lower', () => {
 

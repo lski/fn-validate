@@ -16,7 +16,7 @@ test('combining reducers with only first error', () => {
 	let result = combined(null);
 
 	expect(result.length).toBe(1);
-	expect(result).toContain('This is required');
+	expect(result).toContain('Required');
 });
 
 test('combining reducers with all errors', () => {

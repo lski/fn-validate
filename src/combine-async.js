@@ -2,10 +2,17 @@ import { isPromise } from './utils/is-promise';
 import { isFunction } from './utils/is-func';
 
 /**
- * combines the validators by running them in sequence and returning the first error found, unless runAll is true
+ * Combines a list of validators into... a new validator!... Asynchronously
  *
- * @param {Array} validators
- * @param {bool} runAll - If true will run all validators regardless and return all error messages, false by default.
+ * Validators are run in sequence until the first error is found and is returned.
+ * If runAll is `true` then all validators are run and all errors found (if any) are returned in an array.
+ *
+ * `combineAsync` works in the same way to `combine`, it differs in that returns a Promise that resolves to validation errors not an array directly.
+ * `combineAsync` also accepts validators that return Promises that return arrays of string, not just arrays of strings, meaning it can accept
+ *
+ * @param {Array<() => string[] | PromiseLike<string[]>>} validators List of validators to combine
+ * @param {boolean} runAll If true will run all validators regardless and return all error messages, false by default.
+ * @returns {PromiseLike<string[]>} Contains any validation errors found
  */
 export function combineAsync(validators, runAll = false) {
 	if (!Array.isArray(validators)) {

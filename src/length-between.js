@@ -1,5 +1,12 @@
 import { isString } from './utils/is-string';
 
+/**
+ * Checks a string is between a minimum and maximum length (inclusive)
+ *
+ * @param {number} minLength
+ * @param {number} maxLength
+ * @param {string=} message
+ */
 export const lengthBetween = (
 	minLength,
 	maxLength,

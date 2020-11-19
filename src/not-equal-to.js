@@ -4,7 +4,7 @@ import { isFunction } from './utils/is-func';
  * Compares to a value to a another value returned from a function
  *
  * @param {(func|*)} otherValue - If a function the return value from the function is compared, otherwise just does an exact match on the value
- * @param {string} message - The validation message to return to the user
+ * @param {string=} message - The validation message to return to the user
  */
 export const notEqualTo = (otherValue, message = 'Values should not be the same') => {
 

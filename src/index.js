@@ -1,9 +1,6 @@
-export { allowedChars } from './allowed-chars';
 export { between } from './between';
 export { combine } from './combine';
 export { combineAsync } from './combine-async';
-export { custom } from './custom';
-export { customAsync } from './custom-async';
 export { email } from './email';
 export { equalTo } from './equal-to';
 export { greaterThan } from './greater-than';

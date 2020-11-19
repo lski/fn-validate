@@ -1,10 +1,14 @@
 import { isFunction } from './utils/is-func';
 
 /**
- * combines the validators by running them in sequence and returning the first error found, unless runAll is true
+ * Combines a list of validators into... a new validator!
  *
- * @param {Array} validators
- * @param {bool} runAll - If true will run all validators regardless and return all error messages, false by default.
+ * Validators are run in sequence until the first error is found and is returned.
+ * If runAll is `true` then all validators are run and all errors found (if any) are returned in an array.
+ *
+ * @param {Array<() => string[]>} validators List of validators to combine
+ * @param {boolean} runAll If true will run all validators regardless and return all error messages, false by default.
+ * @returns {string[]} Contains any validation errors found
  */
 export function combine(validators, runAll) {
 	if (!Array.isArray(validators)) {

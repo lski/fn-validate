@@ -1,6 +1,6 @@
 {
 	"name": "fn-validate",
-	"version": "3.0.0",
+	"version": "3.0.0-alpha",
 	"description": "Functional javascript validation",
 	"main": "dist/fn-validate.cjs.js",
 	"module": "dist/fn-validate.es.js",
@@ -11,7 +11,7 @@
 	"scripts": {
 		"test": "jest",
 		"build": "npx rollup --config rollup.config.js",
-		"publish:all": "yarn run build & npm publish",
+		"deploy": "yarn test && yarn run build && npm publish",
 		"lint": "npx eslint '*/**/*.{js,ts}'",
 		"lint:fix": "yarn run lint --fix"
 	},

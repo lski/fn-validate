@@ -1,9 +1,10 @@
-import { custom, customAsync, combineAsync } from '../src';
+import { combineAsync } from '../src';
+import { custom, customAsync } from './util';
 
 test('First error - No Fail - All async', async () => {
 	let validators = combineAsync([
-		customAsync((val) => Promise.resolve(val), 'First'),
-		customAsync((val) => Promise.resolve(val), 'second'),
+		customAsync((val) => val, 'First'),
+		customAsync((val) => val, 'second'),
 	]);
 
 	let result = validators(true);
@@ -18,8 +19,8 @@ test('First error - No Fail - All async', async () => {
 
 test('First error - All Fail - All async', async () => {
 	let validators = combineAsync([
-		customAsync((val) => Promise.resolve(val), 'First'),
-		customAsync((val) => Promise.resolve(val), 'Second'),
+		customAsync((val) => val, 'First'),
+		customAsync((val) => val, 'Second'),
 	]);
 
 	let result = validators(false);
@@ -34,8 +35,8 @@ test('First error - All Fail - All async', async () => {
 
 test('First error - One Fail - All Async', async () => {
 	let validators = combineAsync([
-		customAsync((val) => Promise.resolve(!val), 'First'),
-		customAsync((val) => Promise.resolve(val), 'Second'),
+		customAsync((val) => !val, 'First'),
+		customAsync((val) => val, 'Second'),
 	]);
 
 	let result = validators(false);
@@ -49,10 +50,10 @@ test('First error - One Fail - All Async', async () => {
 });
 
 test('All errors - All Fail - All Async', async () => {
-	let validators = combineAsync(
-		[customAsync((val) => Promise.resolve(val), 'First'), customAsync((val) => Promise.resolve(val), 'Second')],
-		true
-	);
+	let validators = combineAsync([
+		customAsync((val) => val, 'First'),
+		customAsync((val) => val, 'Second')
+	],true);
 
 	let result = validators(false);
 
@@ -65,7 +66,10 @@ test('All errors - All Fail - All Async', async () => {
 });
 
 test('First error - No Fail - Mixed async (sync first)', async () => {
-	let validators = combineAsync([custom((val) => val, 'First'), customAsync((val) => Promise.resolve(val), 'Second')]);
+	let validators = combineAsync([
+		custom((val) => val, 'First'),
+		customAsync((val) => val, 'Second')
+	]);
 
 	let result = validators(true);
 
@@ -78,7 +82,9 @@ test('First error - No Fail - Mixed async (sync first)', async () => {
 });
 
 test('First error - All false - Mixed async (sync first)', async () => {
-	let validators = combineAsync([custom((val) => val, 'First'), customAsync((val) => Promise.resolve(val), 'Second')]);
+	let validators = combineAsync([
+		custom((val) => val, 'First'),
+		customAsync((val) => val, 'Second')]);
 
 	let result = validators(false);
 
@@ -91,7 +97,7 @@ test('First error - All false - Mixed async (sync first)', async () => {
 });
 
 test('First error - All true - Mixed async (sync second)', async () => {
-	let validators = combineAsync([customAsync((val) => Promise.resolve(val), 'First'), custom((val) => val, 'Second')]);
+	let validators = combineAsync([customAsync((val) => val, 'First'), custom((val) => val, 'Second')]);
 
 	let result = validators(true);
 
@@ -104,7 +110,7 @@ test('First error - All true - Mixed async (sync second)', async () => {
 });
 
 test('First error - All false - Mixed async (sync second)', async () => {
-	let validators = combineAsync([customAsync((val) => Promise.resolve(val), 'First'), custom((val) => val, 'Second')]);
+	let validators = combineAsync([customAsync((val) => val, 'First'), custom((val) => val, 'Second')]);
 
 	let result = validators(false);
 
@@ -117,7 +123,7 @@ test('First error - All false - Mixed async (sync second)', async () => {
 });
 
 test('First error - One Fail - Mixed async (sync first)', async () => {
-	let validators = combineAsync([custom((val) => !val, 'First'), customAsync((val) => Promise.resolve(val), 'Second')]);
+	let validators = combineAsync([custom((val) => !val, 'First'), customAsync((val) => val, 'Second')]);
 
 	let result = validators(true);
 
@@ -130,7 +136,7 @@ test('First error - One Fail - Mixed async (sync first)', async () => {
 });
 
 test('First error - One Fail (reversed) - Mixed async (sync first)', async () => {
-	let validators = combineAsync([custom((val) => val, 'First'), customAsync((val) => Promise.resolve(!val), 'Second')]);
+	let validators = combineAsync([custom((val) => val, 'First'), customAsync((val) => !val, 'Second')]);
 
 	let result = validators(false);
 
@@ -143,7 +149,7 @@ test('First error - One Fail (reversed) - Mixed async (sync first)', async () =>
 });
 
 test('First error - One Fail - Mixed async (sync second)', async () => {
-	let validators = combineAsync([customAsync((val) => Promise.resolve(!val), 'First'), custom((val) => val, 'Second')]);
+	let validators = combineAsync([customAsync((val) => !val, 'First'), custom((val) => val, 'Second')]);
 
 	let result = validators(true);
 
@@ -156,7 +162,7 @@ test('First error - One Fail - Mixed async (sync second)', async () => {
 });
 
 test('First error - One Fail (reversed) - Mixed async (sync second)', async () => {
-	let validators = combineAsync([customAsync((val) => Promise.resolve(val), 'First'), custom((val) => !val, 'Second')]);
+	let validators = combineAsync([customAsync((val) => val, 'First'), custom((val) => !val, 'Second')]);
 
 	let result = validators(false);
 

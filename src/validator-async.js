@@ -7,7 +7,7 @@ import { isFunction } from './utils/is-func';
  * @param {func} func
  * @param {string} message
  */
-export function customAsync(func, message = 'Value is incorrect') {
+export function validatorAsync(message, func) {
 	if (!isFunction(func)) {
 		throw new Error('func needs to be a function');
 	}

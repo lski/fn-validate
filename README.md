@@ -185,6 +185,12 @@ isRequired(null); // ['A new error message']
 moreThan10(5); // == ['Woooo that value is way too small']
 ```
 
+## Build
+
+```bash
+yarn run build
+```
+
 ## Roadmap
 
 - Add specific validators to the library now its been cleaned up E.g. isCreditCardNo etc as I come across a need for them.

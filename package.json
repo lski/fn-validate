@@ -1,6 +1,6 @@
 {
 	"name": "fn-validate",
-	"version": "3.0.0-alpha",
+	"version": "3.0.0",
 	"description": "Functional javascript validation",
 	"main": "dist/fn-validate.cjs.js",
 	"module": "dist/fn-validate.es.js",

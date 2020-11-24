@@ -1,5 +1,6 @@
 {
 	"env": {
+		"jest/globals": true,
 		"es6": true,
 		"browser": true
 	},
@@ -8,6 +9,6 @@
 		"ecmaVersion": 9,
 		"sourceType": "module"
 	},
-	"extends": ["eslint:recommended"],
-	"plugins": ["tree-shaking"]
+	"extends": ["eslint:recommended", "plugin:jest/recommended"],
+	"plugins": ["tree-shaking", "jest"]
 }

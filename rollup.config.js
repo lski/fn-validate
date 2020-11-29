@@ -1,37 +1,66 @@
+/* eslint-env node */
 import pkg from './package.json';
 import { terser } from 'rollup-plugin-terser';
-import del from 'rollup-plugin-delete';
+import babel from '@rollup/plugin-babel';
 
+const env = process.env.NODE_ENV;
 const banner = `// fn-validate ${pkg.version}`;
 
-export default {
-	input: 'src/index.js',
-	plugins: [del({ targets: 'dist/*' })],
-	output: [
-		{
-			file: pkg.module,
-			format: 'es',
-			exports: 'named',
-			sourcemap: true,
-			banner,
-		},
-		{
-			file: pkg.browser,
-			format: 'iife',
-			name: 'fnValidate',
-			plugins: [terser()],
-			sourcemap: true,
-			banner,
-		},
-		{
-			file: pkg.main,
-			format: 'cjs',
-			exports: 'named',
-			plugins: [terser()],
-			sourcemap: true,
-			banner,
-		},
-	],
-};
+let output;
 
-// umd and es, maybe a dev build?
+if (env === 'legacy') {
+	output = {
+		input: 'src/index.js',
+		plugins: [babel({ babelHelpers: 'bundled' })],
+		output: [
+			{
+				file: pkg.browser,
+				format: 'iife',
+				name: 'fnValidate',
+				plugins: [terser()],
+				sourcemap: true,
+				banner,
+			},
+			{
+				file: pkg.main,
+				format: 'cjs',
+				exports: 'named',
+				plugins: [terser()],
+				sourcemap: true,
+				banner,
+			},
+		],
+	};
+} else {
+	const terserOptions = {
+		ecma: 2017,
+		safari10: true,
+	};
+
+	output = {
+		input: 'src/index.js',
+		plugins: [babel({ babelHelpers: 'bundled' })],
+		output: [
+			{
+				banner,
+				dir: 'dist/es',
+				format: 'es',
+				exports: 'named',
+				preserveModules: true,
+				preserveModulesRoot: 'src',
+				plugins: [terser(terserOptions)],
+				sourcemap: true,
+			},
+			{
+				banner,
+				file: 'dist/fn-validate.es.js',
+				format: 'es',
+				exports: 'named',
+				plugins: [terser(terserOptions)],
+				sourcemap: true,
+			},
+		],
+	};
+}
+
+export default output;

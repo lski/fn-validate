@@ -19,23 +19,70 @@ A validation library design to be a light weight, agnostic, set of 'pure' functi
 
 ## Install
 
+The simpliest way to install in Node is:
 ```bash
 npm i fn-validate --save
 # Or
 yarn add fn-validate
 ```
 
+In the browser:
+```html
+<script src="https://unpkg.com/fn-validate@4/dist/fn-validate.min.js" crossorigin="anonymous"></script>
+<script>
+    // fnValidate global available
+</script>
+```
+
 <details>
 <summary>
-    Browser usage
+    <h3>Bundle Details</h3>
 </summary>
+<div>
+<p>`fn-validate` comes bundled in three flavours: ES Modules, IIFE and CJS.</p>
 
-`fn-validate` is also available to use directly in the browser as global variable `fnValidate`.
 
+The **ES Modules** build is compiled to run in any browser supports modules e.g. `<script type="module"></script>`. Because those browsers support many modern features (e.g. async/await, arrow functions, Map, Set, etc), the output is a lot cleaner and in theory a lot quicker as it runs builtin features rather than polyfilled versions.
+
+**IIFE** (immediately invoked function expression) is a self executing function that exposes an `fnValidate` global designed for using directly in the browser and compiled to run in anything above IE 11.
+
+**CJS** (CommonJS) is also compiled to run in older Node versions and when imported via `require()` statement. It is also compiled down to a version that will run in anything above IE 11.
+
+See [Browser Support](#Browser%20Support) for using it with bundlers.
+
+**NB:** As can be seen in `package.json` this project supports several entry point fields: `main`, `module` and `exports`.
+
+`main` is for older versions of NodeJS, but also the `exports` field for serving the ES Modules version if `imported` or CJS if `required` for more modern NodeJS versions. It also supports the `module` field for use with bundlers and supports
+
+Finally you can use the ES version of the code directly:
 ```html
-<script src="https://unpkg.com/fn-validate/dist/fn-validate.min.js"></script>
+<script type="module" crossorigin="anonymous">
+    import { required } from 'https://unpkg.com/fn-validate@4/dist/fn-validate.es.js';
+    required();
+</script>
+<script src="https://unpkg.com/fn-validate@4/dist/fn-validate.min.js" nomodule crossorigin="anonymous"></script>
+<script nomodule>
+    fnValidate.required();
+</script>
 ```
+</div>
 </details>
+
+## Browser Support
+
+- **IIFE** = IE11+
+- **CJS**: NodeJS & IE11+
+- **ESModules**: Browsers that support ES Modules
+
+<details>
+<summary>
+    <h3>Browser Support with a bundler (e.g. webpack/rollup)</h3>
+</summary>
+<div>
+When using a bundler  they will use the ES Modules version by default as its   exposed via the <code>module</code> field. This is desireable as it will enable treeshaking and also use clean/  modern code, but if you need to support older browsers you will need to include it in babel's compliation. Most devs exclude code in node_modules to speed compliation so change the exclude field   to: <code>exclude: /node_modules(?!\/(fn-validate))/</code>
+</div>
+</details>
+
 
 ## What is a Validator?
 
@@ -203,3 +250,9 @@ yarn run build
 ```bash
 yarn run deploy
 ```
+
+<style>
+    details { margin-bottom: 0.5rem;}
+    details>div { margin: 1rem 0 0.5rem 0; }
+    details>summary>h3 { display:inline-block; vertical-align:middle; }
+</style>

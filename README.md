@@ -36,7 +36,7 @@ In the browser:
 
 <details>
 <summary>
-    <h3>Bundle Details</h3>
+    Bundle Details
 </summary>
 <div>
 <p>`fn-validate` comes bundled in three flavours: ES Modules, IIFE and CJS.</p>
@@ -76,7 +76,7 @@ Finally you can use the ES version of the code directly:
 
 <details>
 <summary>
-    <h3>Browser Support with a bundler (e.g. webpack/rollup)</h3>
+    Browser Support with a bundler (e.g. webpack/rollup)
 </summary>
 <div>
 When using a bundler  they will use the ES Modules version by default as its   exposed via the <code>module</code> field. This is desireable as it will enable treeshaking and also use clean/  modern code, but if you need to support older browsers you will need to include it in babel's compliation. Most devs exclude code in node_modules to speed compliation so change the exclude field   to: <code>exclude: /node_modules(?!\/(fn-validate))/</code>
@@ -250,9 +250,3 @@ yarn run build
 ```bash
 yarn run deploy
 ```
-
-<style>
-    details { margin-bottom: 0.5rem;}
-    details>div { margin: 1rem 0 0.5rem 0; }
-    details>summary>h3 { display:inline-block; vertical-align:middle; }
-</style>

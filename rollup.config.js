@@ -4,7 +4,7 @@ import { terser } from 'rollup-plugin-terser';
 import babel from '@rollup/plugin-babel';
 
 const env = process.env.NODE_ENV;
-const banner = `// fn-validate ${pkg.version}`;
+const banner = `// ${pkg.name} ${pkg.version}`;
 
 let output;
 
